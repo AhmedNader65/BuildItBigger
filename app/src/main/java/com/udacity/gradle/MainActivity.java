@@ -13,7 +13,7 @@ import com.udacity.gradle.EndpointAsyncTask;
 import mrerror.jokedisplay.JokeDisplayActivity;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements EndpointAsyncTask.onCompleteTask{
     ProgressBar progressBar ;
     public String  joke;
     @Override
@@ -63,4 +63,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    public void onCompleteAsyncTask(String result) {
+        showJoke(result);
+    }
 }

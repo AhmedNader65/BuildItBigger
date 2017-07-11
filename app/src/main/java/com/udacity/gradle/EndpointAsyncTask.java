@@ -13,13 +13,13 @@ import java.io.IOException;
  * Created by ahmed on 05/07/17.
  */
 
-public class EndpointAsyncTask extends AsyncTask<MainActivity, Void, String> {
+public class EndpointAsyncTask extends AsyncTask<EndpointAsyncTask.onCompleteTask, Void, String> {
     private MyApi myApiService = null;
-    MainActivity mainActivity = null;
+    onCompleteTask mCallback;
     @Override
-    protected String doInBackground(MainActivity... params) {
+    protected String doInBackground(onCompleteTask... params) {
         if(params.length>0)
-            mainActivity = params[0];
+            mCallback = params[0];
         if(myApiService == null) {
             MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null);
             builder.setRootUrl("https://gradlefinalproject.appspot.com/_ah/api/");
@@ -37,7 +37,10 @@ public class EndpointAsyncTask extends AsyncTask<MainActivity, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(mainActivity!=null)
-            mainActivity.showJoke(result);
+            mCallback.onCompleteAsyncTask(result);
+    }
+
+    public interface onCompleteTask{
+        void onCompleteAsyncTask(String result);
     }
 }
